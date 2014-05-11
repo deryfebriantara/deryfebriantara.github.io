@@ -1,3 +1,2 @@
-auto: true
-server: true
-markdown: rdiscount
+# Name of the site
+name: Jekyll Builerplate
