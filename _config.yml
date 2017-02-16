@@ -1,15 +1,15 @@
 # Site settings
 title: Lorem Ipsum - Web Developer
-description: "A blog about lorem ipsum ..."
-baseurl: "/space-jekyll-template" # for test: remove string '/space-jekyll-templa' to ''
-url: "http://victorvoid.github.io" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
+description: "A blog about a failed programmer ..."
+baseurl: "" # for test: remove string '/space-jekyll-templa' to ''
+url: "" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
 # User settings
-username: lorem ipsum
+username: dery febriantara
 user_title: Lorem Ipsum - FrontEnd
-email: lorem.lorem@ipsum.com
-twitter_username: loremipsum
-github_username:  loremipsum
-gplus_username:  loremipsum
+email: deryfebriantara@gmail.com
+twitter_username: deryfebriantara
+github_username:  deryfebriantara
+gplus_username:  deryfebriantara
 disqus_username: loremipsum
 
 # Build settings
@@ -39,11 +39,11 @@ links:
     url: /about
 # projects in header index
 projects:
-  - name: asciilang
+  - name: angularjs
     url: https://github.com/victorvoid/asciilang
-  - name: vim-frontend
+  - name: ionic2
     url: https://github.com/victorvoid/vim-frontend
-  - name: generator-capybara
+  - name: symfony2
     url: https://github.com/victorvoid/generator-capybara 
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
