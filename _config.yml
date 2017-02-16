@@ -30,13 +30,13 @@ links:
   - title: home
     url: /
   - title: my posts
-    url: /posts
+    url: /blog/posts
   - title: series
-    url: /series
+    url: /blog/series
   - title: tags
-    url: /tags
+    url: /blog/tags
   - title: about me
-    url: /about
+    url: /blog/about
 # projects in header index
 projects:
   - name: angularjs
