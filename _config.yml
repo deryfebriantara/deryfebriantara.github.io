@@ -1,8 +1,8 @@
 # Site settings
-title: Lorem Ipsum - Web Developer
+title: dery febriantara - Web Developer
 description: "A blog about a failed programmer ..."
 baseurl: "" # for test: remove string '/space-jekyll-templa' to ''
-url: "" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
+url: "https://deryfebriantara.github.io" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
 # User settings
 username: dery febriantara
 user_title: Lorem Ipsum - FrontEnd
@@ -10,7 +10,7 @@ email: deryfebriantara@gmail.com
 twitter_username: deryfebriantara
 github_username:  deryfebriantara
 gplus_username:  deryfebriantara
-disqus_username: loremipsum
+disqus_username: deryfeb
 
 # Build settings
 markdown: kramdown
@@ -30,13 +30,13 @@ links:
   - title: home
     url: /
   - title: my posts
-    url: /blog/posts
+    url: /posts
   - title: series
-    url: /blog/series
+    url: /series
   - title: tags
-    url: /blog/tags
+    url: /tags
   - title: about me
-    url: /blog/about
+    url: /about
 # projects in header index
 projects:
   - name: angularjs
