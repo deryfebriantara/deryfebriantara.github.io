@@ -44,14 +44,14 @@ sebagai contoh kita akan menentukan jenis buah `durian` atau `rambutan`.
 sesudah kita menginstall scikit learn pastikan scikit learn telah terinstall dengan baik dengan cara:
 
 {% highlight javascript %}
-	[~] $: touch basic-machine-learning.py
-	[~] $: vim basic-machine-learning.py
+[~] $: touch basic-machine-learning.py
+[~] $: vim basic-machine-learning.py
 {% endhighlight %}
 
 lalu tulis di file `basic-machine-learning.py`
 {% highlight javascript %}
 
-	import sklearn
+import sklearn
 
 {% endhighlight %}
 
@@ -59,7 +59,7 @@ save, exit dan jalankan dengan perintah:
 
 {% highlight javascript %}
 
-	[~] $: python basic-machine-learning.py
+[~] $: python basic-machine-learning.py
 
 {% endhighlight %}
 
@@ -78,9 +78,9 @@ selanjutnya kita akan membuat training data untuk menentukan buah durian dan ram
 
 {% highlight javascript %}
 
-	from sklearn import tree
-	features = [[60, "berambut"], [1200, "berduri"], [50, "berambut"], [1500, "berduri"] ]
-	labels = ["rambutan", "durian", "rambutan", "durian"]
+from sklearn import tree
+features = [[60, "berambut"], [1200, "berduri"], [50, "berambut"], [1500, "berduri"] ]
+labels = ["rambutan", "durian", "rambutan", "durian"]
 
 {% endhighlight %}
 
@@ -88,9 +88,9 @@ saya akan mempersimple kode dengan mengganti value dalam variable features `"ber
 
 {% highlight javascript %}
 
-	from sklearn import tree
-	features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
-	labels = [0, 1, 0, 1]
+from sklearn import tree
+features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
+labels = [0, 1, 0, 1]
 
 {% endhighlight %}
 
@@ -98,11 +98,11 @@ kita akan mengunakan decision tree untuk menentukan jenis buah nanti berdasarkan
 
 {% highlight javascript %}
 
-	from sklearn import tree
-	features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
-	labels = [0, 1, 0, 1]
-	clf = tree.DecisionTreeClassifier()
-	clf = clf.fit(features, labels)
+from sklearn import tree
+features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
+labels = [0, 1, 0, 1]
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features, labels)
 
 {% endhighlight %}
 
@@ -110,20 +110,20 @@ dan pada akhirnya kita dapat menentukan jenis buah dengan cara meng-inputkan cir
 
 {% highlight javascript %}
 
-	from sklearn import tree
-	features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
-	labels = [0, 1, 0, 1]
-	clf = tree.DecisionTreeClassifier()
-	clf = clf.fit(features, labels)
-	print clf.predict([[70, 0]])
+from sklearn import tree
+features = [[60, 0], [1200, 1], [50, 0], [1500, 1] ]
+labels = [0, 1, 0, 1]
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features, labels)
+print clf.predict([[70, 0]])
 
 {% endhighlight %}
 
-jalan script dan kita akan melihat `[0]` akan di print itu berarti jenis buah rambutan.
+jalankan script dan kita akan melihat `[0]` akan di print itu berarti jenis buah rambutan.
 
 {% highlight javascript %}
-	[~] $: python basic-machine-learning.py
-	[~] $: [0]
+[~] $: python basic-machine-learning.py
+[~] $: [0]
 {% endhighlight %}
 
 <img src="https://media.giphy.com/media/BdrSy2gqURFEk/giphy.gif">
