@@ -119,11 +119,11 @@ dan pada akhirnya kita dapat menentukan jenis buah dengan cara meng-inputkan cir
 
 {% endhighlight %}
 
-jalan script dan kita akan melihat `[1]` akan di print itu berarti jenis buah rambutan.
+jalan script dan kita akan melihat `[0]` akan di print itu berarti jenis buah rambutan.
 
 {% highlight javascript %}
 	[~] $: python basic-machine-learning.py
-	[~] $: [1]
+	[~] $: [0]
 {% endhighlight %}
 
 <img src="https://media.giphy.com/media/BdrSy2gqURFEk/giphy.gif">
