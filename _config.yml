@@ -39,11 +39,17 @@ links:
     url: /about
 # projects in header index
 projects:
+  - name: nodejs
+    url: https://github.com/angularjs
   - name: angularjs
-    url: https://github.com/victorvoid/asciilang
-  - name: ionic2
-    url: https://github.com/victorvoid/vim-frontend
+    url: https://github.com/angularjs
+  - name: angular
+    url: https://github.com/angular
+  - name: ionic v1
+    url: https://github.com/ionic3
+  - name: ionic 3
+    url: https://github.com/ionic3
   - name: symfony2
-    url: https://github.com/victorvoid/generator-capybara 
+    url: https://github.com/symfony2
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
