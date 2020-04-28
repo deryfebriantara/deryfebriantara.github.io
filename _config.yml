@@ -1,6 +1,6 @@
 # Site settings
 title: dery febriantara - Web Developer
-description: "A blog about a failed programmer ..."
+description: "Dery Febriantara Blog."
 baseurl: "" # for test: remove string '/space-jekyll-templa' to ''
 url: "https://deryfebriantara.github.io" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
 # User settings
@@ -39,17 +39,13 @@ links:
     url: /about
 # projects in header index
 projects:
-  - name: nodejs
-    url: https://github.com/angularjs
-  - name: angularjs
-    url: https://github.com/angularjs
-  - name: angular
+  - name: Nodejs
+    url: https://github.com/nodejs
+  - name: Angular
     url: https://github.com/angular
-  - name: ionic v1
+  - name: Nestjs
+    url: https://github.com/nestjs
+  - name: ionic 
     url: https://github.com/ionic3
-  - name: ionic 3
-    url: https://github.com/ionic3
-  - name: symfony2
-    url: https://github.com/symfony2
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
