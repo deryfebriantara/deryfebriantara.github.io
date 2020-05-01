@@ -1,0 +1,83 @@
+I"q<p class="music-read"><a href="spotify:track:7xQAfvXzm3AkraOtGPWIZg">Music for reading(spotify)</a></p>
+
+<p><img src="/assets/img/nvm/nodejs.gif" /></p>
+
+<h2 id="nvm--apaan-sih-itu-">NVM ? Apaan Sih itu ?</h2>
+
+<p>NVM adalah Node Version Manager, bash script sederhana untuk mengatur versi nodejs yg aktif, dan  di design untuk di install per-user dan per-shell. nvm juga bisa di gunakan di <code class="highlighter-rouge">POSIX compliant shell (sh, dash, ksh, zsh, bash)</code>. Terkhusus di platforms: unix, macOS, and windows WSL.</p>
+
+<h2 id="nvm-buat-apa-">NVM, Buat apa ?</h2>
+
+<p>Saya sering sekali harus berpindah pindah versi node karena di haruskan untuk menjalankan angularjs( versi lama ) untuk tujuan maintenance dan sementara itu saya sedang melakukan development memakai angular(versi terbaru) dan keduanya itu memakai versi node yg bebeda, angularjs mengharuskan memakai versi node 9 dan angular versi terbaru mengharuskan untuk memakai versi node 10 keatas. terbayang kan jika tidak ada nvm ? saya harus install dan uninstall versi node berbeda setiap akan melakukan development pada aplikasi yg berbeda <code class="highlighter-rouge">jaman</code>. <br />
+Dan disinilah nvm sebagai <code class="highlighter-rouge">game changer</code> di development environmnet node, Kita bisa memiliki beberapa versi node dan gampang untuk berpindah dari versi satu ke versi lainnya.</p>
+
+<h2 id="install-nvm">Install NVM.</h2>
+
+<p>Menginstall NVM sangatlah mudah, bisa juga di baca disini <a target="_blank" href="https://github.com/nvm-sh/nvm#installation-and-update"> Dokumentasi github</a> <br />
+ada beberapa langkah menginstall NVM:</p>
+<h3 id="langkah-1">Langkah 1</h3>
+<p>Langkah pertama sangat simple kita bisa memililih menggunakan curl atau wget.<br />
+Curl command:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">curl</span> <span class="o">-</span><span class="nx">o</span><span class="o">-</span> <span class="nx">https</span><span class="p">:</span><span class="c1">//raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash</span></code></pre></figure>
+
+<p>Wget command:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">wget</span> <span class="o">-</span><span class="nx">qO</span><span class="o">-</span> <span class="nx">https</span><span class="p">:</span><span class="c1">//raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash</span></code></pre></figure>
+
+<h3 id="langkah-11">Langkah 1.1</h3>
+<p>Pastikan nvm telah terinstall dengan baik dengan command berikut.<br /></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="nx">command</span> <span class="o">-</span><span class="nx">v</span> <span class="nx">nvm</span></code></pre></figure>
+
+<p>jika terinstall maka akan seperti berikut:</p>
+
+<figure class="foto-legenda">
+	<img src="/assets/img/nvm/nvm1.png" alt="" />
+	<figcaption> 
+	</figcaption>
+</figure>
+
+<p>Jika Belum muncul <code class="highlighter-rouge">nvm</code> atau ada error lainnya bisa langsung saja di baca dokumentasi resmi dari nvm <a target="_blank" href="https://github.com/nvm-sh/nvm#installation-and-update"> Dokumentasi github</a> <br /></p>
+
+<h3 id="langkah-2">Langkah 2</h3>
+
+<p>Tambahkan Directory Path nvm ke shell profile yaitu di file <code class="highlighter-rouge">~/.zshrc</code> atau di <code class="highlighter-rouge">~/.bashrc</code> dengan menambahkan path sebagai berikut di akhir file:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">export</span> <span class="nx">NVM_DIR</span><span class="o">=</span><span class="dl">"</span><span class="s2">$HOME/.nvm</span><span class="dl">"</span>
+<span class="p">[</span> <span class="o">-</span><span class="nx">s</span> <span class="dl">"</span><span class="s2">$NVM_DIR/nvm.sh</span><span class="dl">"</span> <span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="err">\</span><span class="p">.</span> <span class="dl">"</span><span class="s2">$NVM_DIR/nvm.sh</span><span class="dl">"</span>  <span class="err">#</span> <span class="nx">This</span> <span class="nx">loads</span> <span class="nx">nvm</span>
+<span class="p">[</span> <span class="o">-</span><span class="nx">s</span> <span class="dl">"</span><span class="s2">$NVM_DIR/bash_completion</span><span class="dl">"</span> <span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="err">\</span><span class="p">.</span> <span class="dl">"</span><span class="s2">$NVM_DIR/bash_completion</span><span class="dl">"</span>  <span class="err">#</span> <span class="nx">This</span> <span class="nx">loads</span> <span class="nx">nvm</span> <span class="nx">bash_completion</span></code></pre></figure>
+
+<p>lalu ulangi lagi command <code class="highlighter-rouge">command -v nvm</code> untuk memastikan instalasi terpasang dengan baik.</p>
+
+<h2 id="menggunakan-nvm">Menggunakan NVM</h2>
+<p>menggunakan nvm sangat mudah, saya akan menunjukan beberapa command dari nvm</p>
+
+<h3 id="menampilkan-semua-versi-lts-nodejs">Menampilkan Semua versi LTS nodejs</h3>
+<p>Dengan command <code class="highlighter-rouge">nvm ls-remote</code> kita bisa melihat semua versi LTS nodejs</p>
+
+<figure class="foto-legenda">
+	<img src="/assets/img/nvm/nvm2.png" alt="" />
+	<figcaption> 
+	</figcaption>
+</figure>
+
+<h3 id="menampilkan-versi-nodejs-yg-terinstall">Menampilkan versi nodejs yg terinstall</h3>
+
+<p>Dengan command <code class="highlighter-rouge">nvm ls </code> menampilkan versi nodejs yg terinstall di local kita.</p>
+<figure class="foto-legenda">
+	<img src="/assets/img/nvm/nvm3.png" alt="" />
+	<figcaption> 
+	</figcaption>
+</figure>
+
+<h3 id="menginstall-nodejs-versi-tertentu">Menginstall nodejs versi tertentu</h3>
+
+<p>Menggunakan command <code class="highlighter-rouge">nvm install &lt;SPECIFIC_NODE_VERSION&gt;</code> kita bisa menginstall versi nodejs dengan versi tertentu.</p>
+
+<figure class="foto-legenda">
+	<img src="/assets/img/nvm/nvm4.png" alt="" />
+	<figcaption> 
+	</figcaption>
+</figure>
+:ET

@@ -1,0 +1,84 @@
+I"n0<p class="music-read"><a href="spotify:track:7xQAfvXzm3AkraOtGPWIZg">Music for reading(spotify)</a></p>
+
+<p><img src="/assets/img/nvm/nodejs.gif" /></p>
+
+<h2 id="nvm--apaan-sih-itu-">NVM ? Apaan Sih itu ?</h2>
+
+<p>NVM adalah Node Version Manager,simple bash script untuk mengatur versi nodejs yg aktif, dan  di design untuk di install per-user dan per-shell. nvm juga bisa di gunakan di <code class="highlighter-rouge">POSIX compliant shell (sh, dash, ksh, zsh, bash)</code>. Terkhusus di platforms: unix, macOS, and windows WSL.</p>
+
+<h2 id="nvm-buat-apa-">NVM, Buat apa ?</h2>
+
+<p>Saya sering sekali harus berpindah pindah versi node karena di haruskan untuk menjalankan angularjs( versi lama ) untuk tujuan maintenance dan sementara itu saya sedang melakukan development memakai angular(versi terbaru) dan keduanya itu memakai versi node yg bebeda, angularjs mengharuskan memakai versi node 9 dan angular versi terbaru mengharuskan untuk memakai versi node 10 keatas. terbayang kan jika tidak ada nvm ? saya harus install dan uninstall versi node berbeda setiap akan melakukan development pada aplikasi yg berbeda <code class="highlighter-rouge">jaman</code>. <br />
+Dan disinilah nvm sebagai <code class="highlighter-rouge">game changer</code> di development environmnet node, Kita bisa memiliki beberapa versi node dan gampang untuk berpindah dari versi satu ke versi lainnya.</p>
+
+<h2 id="install-nvm">Install NVM.</h2>
+
+<p>kita akan menggunakan <code class="highlighter-rouge">scikit learn</code> untuk membantu kita, go ahead and <a target="_blank" href="http://scikit-learn.org/stable/">install here </a>, saya menggunakan anaconda2 untuk menginstall scikit learn, dan berguna juga nanti jika ingin menginstall <code class="highlighter-rouge">tensorflow</code>. lebih mudah dan praktis menggunakan anaconda2.</p>
+
+<h3 id="the-goal">the goal!</h3>
+
+<p>kita akan mampu untuk menentukan jenis buah berdasarkan ciri-ciri dari buah tersebut<br />
+sebagai contoh kita akan menentukan jenis buah <code class="highlighter-rouge">durian</code> atau <code class="highlighter-rouge">rambutan</code>.</p>
+
+<h3 id="are-your-scikit-learn-installed-properly">are your scikit learn installed properly?</h3>
+
+<p>sesudah kita menginstall scikit learn pastikan scikit learn telah terinstall dengan baik dengan cara:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="nx">touch</span> <span class="nx">basic</span><span class="o">-</span><span class="nx">machine</span><span class="o">-</span><span class="nx">learning</span><span class="p">.</span><span class="nx">py</span>
+<span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="nx">vim</span> <span class="nx">basic</span><span class="o">-</span><span class="nx">machine</span><span class="o">-</span><span class="nx">learning</span><span class="p">.</span><span class="nx">py</span></code></pre></figure>
+
+<p>lalu tulis di file <code class="highlighter-rouge">basic-machine-learning.py</code></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="nx">sklearn</span></code></pre></figure>
+
+<p>save, exit dan jalankan dengan perintah:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="nx">python</span> <span class="nx">basic</span><span class="o">-</span><span class="nx">machine</span><span class="o">-</span><span class="nx">learning</span><span class="p">.</span><span class="nx">py</span></code></pre></figure>
+
+<p>jika tidak ada error maka scikit learn telah terinstall dengan baik, lanjut… gan.<br />
+selanjutnya kita akan membuat training data untuk menentukan buah durian dan rambutan, training data buah ini kita akan isi dengan ciri-ciri buah, <code class="highlighter-rouge">berat</code>, <code class="highlighter-rouge">texture</code> , dan <code class="highlighter-rouge">nama_buah</code>.<br />
+<i>nb :kita akan menggunakan input console terlebih dahulu, in future article I will show how to using image classifier ;)</i></p>
+
+<figure class="foto-legenda">
+	<img src="/assets/img/machine-learning/table.png" alt="" />
+	<figcaption> <p>berat dan texture kita akan sebut dengan <b>features </b> dan nama buah kita akan sebut dengan <b>label</b></p>
+	</figcaption>
+</figure>
+
+<h3 id="lets-code">let’s code!</h3>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">from</span> <span class="nx">sklearn</span> <span class="k">import</span> <span class="nx">tree</span>
+<span class="nx">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">60</span><span class="p">,</span> <span class="dl">"</span><span class="s2">berambut</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="mi">1200</span><span class="p">,</span> <span class="dl">"</span><span class="s2">berduri</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="dl">"</span><span class="s2">berambut</span><span class="dl">"</span><span class="p">],</span> <span class="p">[</span><span class="mi">1500</span><span class="p">,</span> <span class="dl">"</span><span class="s2">berduri</span><span class="dl">"</span><span class="p">]</span> <span class="p">]</span>
+<span class="nx">labels</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">rambutan</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">durian</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">rambutan</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">durian</span><span class="dl">"</span><span class="p">]</span></code></pre></figure>
+
+<p>saya akan mempersimple kode dengan mengganti value dalam variable features <code class="highlighter-rouge">"berambut" = 0 </code> dan <code class="highlighter-rouge">"berduri" = 1</code> , begitu juga dengan labels <code class="highlighter-rouge">"rambutan" = 0</code> dan <code class="highlighter-rouge">"durian" = 1</code></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">from</span> <span class="nx">sklearn</span> <span class="k">import</span> <span class="nx">tree</span>
+<span class="nx">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+<span class="nx">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span></code></pre></figure>
+
+<p>kita akan mengunakan decision tree untuk menentukan jenis buah nanti berdasarkan input dengan manambahkan method <code class="highlighter-rouge">DecisionTreeClassifier()</code> dan mentraining classifier dengan method <code class="highlighter-rouge">fit()</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">from</span> <span class="nx">sklearn</span> <span class="k">import</span> <span class="nx">tree</span>
+<span class="nx">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+<span class="nx">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nx">clf</span> <span class="o">=</span> <span class="nx">tree</span><span class="p">.</span><span class="nx">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="nx">clf</span> <span class="o">=</span> <span class="nx">clf</span><span class="p">.</span><span class="nx">fit</span><span class="p">(</span><span class="nx">features</span><span class="p">,</span> <span class="nx">labels</span><span class="p">)</span></code></pre></figure>
+
+<p>dan pada akhirnya kita dapat menentukan jenis buah dengan cara meng-inputkan ciri-ciri buah dengan method <code class="highlighter-rouge">predict()</code> dan nanti akan mengembalikan label-nya, kita akan menginputkan berat baru dan texture-nya:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">from</span> <span class="nx">sklearn</span> <span class="k">import</span> <span class="nx">tree</span>
+<span class="nx">features</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+<span class="nx">labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nx">clf</span> <span class="o">=</span> <span class="nx">tree</span><span class="p">.</span><span class="nx">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="nx">clf</span> <span class="o">=</span> <span class="nx">clf</span><span class="p">.</span><span class="nx">fit</span><span class="p">(</span><span class="nx">features</span><span class="p">,</span> <span class="nx">labels</span><span class="p">)</span>
+<span class="nx">print</span> <span class="nx">clf</span><span class="p">.</span><span class="nx">predict</span><span class="p">([[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span></code></pre></figure>
+
+<p>jalankan script dan kita akan melihat <code class="highlighter-rouge">[0]</code> akan di print itu berarti jenis buah rambutan.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="nx">python</span> <span class="nx">basic</span><span class="o">-</span><span class="nx">machine</span><span class="o">-</span><span class="nx">learning</span><span class="p">.</span><span class="nx">py</span>
+<span class="p">[</span><span class="o">~</span><span class="p">]</span> <span class="nx">$</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span></code></pre></figure>
+
+<p><img src="https://media.giphy.com/media/BdrSy2gqURFEk/giphy.gif" /></p>
+
+:ET
