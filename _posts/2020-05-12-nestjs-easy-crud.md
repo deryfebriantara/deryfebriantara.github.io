@@ -279,7 +279,6 @@ dan tambahkan kode berikut di `todo.dto.ts`
 {% highlight javascript%}
 
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateUserDto } from '../user/user.dto';
 
 export class CreateTodoDto {
   @ApiProperty()
