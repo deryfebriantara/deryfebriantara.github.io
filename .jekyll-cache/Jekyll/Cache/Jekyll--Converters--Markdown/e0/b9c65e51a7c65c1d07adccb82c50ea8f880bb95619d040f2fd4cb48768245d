@@ -1,4 +1,4 @@
-I"æ<<p class="music-read"><a href="spotify:track:5Z34KcxLFW9t2DKudEVcws">Music for reading(spotify)</a></p>
+I"±s<p class="music-read"><a href="spotify:track:5Z34KcxLFW9t2DKudEVcws">Music for reading(spotify)</a></p>
 <p><img src="/assets/img/nestjs/nest.png" /></p>
 
 <h2 id="perkenalan">Perkenalan</h2>
@@ -145,5 +145,130 @@ kita edit <code class="highlighter-rouge">todo.service.ts</code> dan tambahkan k
     <span class="k">super</span><span class="p">(</span><span class="nx">repo</span><span class="p">)</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<p>lalu kita edit <code class="highlighter-rouge">todo.controller.ts</code> dan tambahkan juga kode di bawah ini:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Crud</span><span class="p">,</span> <span class="nx">CrudController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjsx/crud</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Crud</span><span class="p">({</span>
+  <span class="na">model</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">TodoEntity</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="p">@</span><span class="nd">Controller</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoController</span> <span class="kr">implements</span> <span class="nx">CrudController</span><span class="o">&lt;</span><span class="nx">TodoEntity</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="na">service</span><span class="p">:</span> <span class="nx">TodoService</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>dan jangan lupa tambahkan di <code class="highlighter-rouge">app.module.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Module</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.controller</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TypeOrmModule</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/typeorm</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Module</span><span class="p">({</span>
+  <span class="na">imports</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nx">TypeOrmModule</span><span class="p">.</span><span class="nx">forFeature</span><span class="p">([</span><span class="nx">TodoEntity</span><span class="p">])</span>
+  <span class="p">],</span>
+  <span class="na">providers</span><span class="p">:</span> <span class="p">[</span><span class="nx">TodoService</span><span class="p">],</span>
+  <span class="na">controllers</span><span class="p">:</span> <span class="p">[</span><span class="nx">TodoController</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoModule</span> <span class="p">{}</span></code></pre></figure>
+
+<p>Sebenarnya kita sudah beres membuat operasi crud sampai disini, bingung ga? kenapa ga ada  @Post, @Get, @Put, @Patch, @Delete methods? itu karena <code class="highlighter-rouge">nestjsx/crud</code> telah meng-handle semua fungsi tersebut. <br /></p>
+
+<p>sekarang kita akan setup OpenAPI, kita akan menggunakan nestjs swagger:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">yarn</span> <span class="nx">add</span> <span class="p">@</span><span class="nd">nestjs</span><span class="sr">/swagger swagger-ui-express</span></code></pre></figure>
+
+<p>setelah menginstall kita edit <code class="highlighter-rouge">main.ts</code>:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">NestFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/core</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppModule</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app.module</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">SwaggerModule</span><span class="p">,</span> <span class="nx">DocumentBuilder</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/swagger</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">bootstrap</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NestFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DocumentBuilder</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="dl">'</span><span class="s1">Todo Crud</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">setDescription</span><span class="p">(</span><span class="dl">'</span><span class="s1">The todo API description</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">setVersion</span><span class="p">(</span><span class="dl">'</span><span class="s1">1.0</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">addTag</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">build</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nb">document</span> <span class="o">=</span> <span class="nx">SwaggerModule</span><span class="p">.</span><span class="nx">createDocument</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+  <span class="nx">SwaggerModule</span><span class="p">.</span><span class="nx">setup</span><span class="p">(</span><span class="dl">'</span><span class="s1">api/docs</span><span class="dl">'</span><span class="p">,</span> <span class="nx">app</span><span class="p">,</span> <span class="nb">document</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">bootstrap</span><span class="p">();</span></code></pre></figure>
+
+<p>lalu sekarang buka browser dan akses ke <code class="highlighter-rouge">localhost:3000/api/docs</code>:</p>
+
+<p><img src="/assets/img/nestjs/nest2.png" /></p>
+
+<p>sekarang kita bisa lihat bebagai macam todo endpoints, tapi kayanya ada yang kurang. kita harus membuat api tags dan field.</p>
+
+<p>kalau begitu mari kita buat DTO nya:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">touch</span> <span class="nx">src</span><span class="o">/</span><span class="nx">todo</span><span class="o">/</span><span class="nx">todo</span><span class="p">.</span><span class="nx">dto</span><span class="p">.</span><span class="nx">ts</span></code></pre></figure>
+
+<p>dan tambahkan kode berikut di <code class="highlighter-rouge">todo.dto.ts</code></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">ApiProperty</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/swagger</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">CreateTodoDto</span> <span class="p">{</span>
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">title</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">description</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">is_done</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>edit juga di <code class="highlighter-rouge">todo.controller.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Crud</span><span class="p">,</span> <span class="nx">CrudController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjsx/crud</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">CreateTodoDto</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.dto</span><span class="dl">'</span>
+
+
+<span class="p">@</span><span class="nd">Crud</span><span class="p">({</span>
+  <span class="na">model</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">TodoEntity</span>
+  <span class="p">},</span>
+  <span class="na">dto</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">create</span><span class="p">:</span> <span class="nx">CreateTodoDto</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="p">@</span><span class="nd">Controller</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoController</span> <span class="kr">implements</span> <span class="nx">CrudController</span><span class="o">&lt;</span><span class="nx">TodoEntity</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="na">service</span><span class="p">:</span> <span class="nx">TodoService</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>dan sekarang kita sudah melihat fields di swaggernya:
+<img src="/assets/img/nestjs/nest3.png" /></p>
+
+<p><code class="highlighter-rouge">nestjsx/crud</code> lengkap dengan bebagai query untuk kebutuhan pagination dan searching</p>
+
+<p><img src="/assets/img/nestjs/nest4.png" /></p>
+
+<h2 id="kesimpulan">Kesimpulan</h2>
+
+<p><code class="highlighter-rouge">nestjsx/crud</code> memudahkan kita untuk membuat crud secara cepat tapi kita harus banyak membaca dokumentasinya di sesuaikan dengan kebutuhan kita.</p>
+
+<h2 id="thank-you--">thank you  â€¦â€¦</h2>
 
 :ET
