@@ -1,0 +1,13 @@
+I"S<p class="music-read"><a href="spotify:track:5Z34KcxLFW9t2DKudEVcws">Music for reading(spotify)</a></p>
+<p><img src="/assets/img/nestjs/nest.png" /></p>
+
+<h2 id="perkenalan">Perkenalan</h2>
+
+<p>Karena kesal main game moba kena lose streak, jadi saya kali ini iseng share membuat CRUD dengan cepat menggunakan nestjs framework. bagi yang belum mengenal nestjs bisa membaca terlebih dahulu di artikel <a target="_blank" href="https://medium.com/@ahmadarif/berkenalan-dengan-nestjs-e9c628b7194"> ini (berkenalan dengan nestjs oleh ahmad arif) </a> penjelasannya sangat mudah di mengerti.<br /></p>
+
+<p>Di tutorial ini saya akan membuat Backend CRUD TodoList. Kita akan menggunakan <code class="highlighter-rouge">mysql</code> dan <code class="highlighter-rouge">TypeOrm</code> untuk ORM -nya. Kita akan menggunakan <code class="highlighter-rouge">nestjsx/crud</code> untuk operasi CRUD nya.<br />
+Sebelum kita mulai pastikan sudah terinstall <code class="highlighter-rouge">mysql</code> dan <code class="highlighter-rouge">nestjs</code> local machine anda.</p>
+
+<h2 id="kita-mulai-yukz">Kita Mulai yukz!</h2>
+
+:ET

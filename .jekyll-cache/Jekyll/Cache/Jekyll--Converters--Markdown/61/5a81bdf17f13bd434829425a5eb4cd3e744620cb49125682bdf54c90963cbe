@@ -1,0 +1,276 @@
+I"�t<p class="music-read"><a href="spotify:track:5Z34KcxLFW9t2DKudEVcws">Music for reading(spotify)</a></p>
+<p><img src="/assets/img/nestjs/nest.png" /></p>
+
+<h2 id="perkenalan">Perkenalan</h2>
+
+<p>Karena kesal main game moba kena lose streak, jadi saya kali ini iseng share membuat CRUD dengan cepat menggunakan nestjs framework. bagi yang belum mengenal nestjs bisa membaca terlebih dahulu di artikel <a target="_blank" href="https://medium.com/@ahmadarif/berkenalan-dengan-nestjs-e9c628b7194"> ini (berkenalan dengan nestjs oleh ahmad arif) </a> penjelasannya sangat mudah di mengerti.<br /></p>
+
+<p>Di tutorial ini saya akan membuat Backend CRUD TodoList. Kita akan menggunakan <code class="highlighter-rouge">mysql</code> dan <code class="highlighter-rouge">TypeOrm</code> untuk ORM -nya. Kita akan menggunakan <code class="highlighter-rouge">nestjsx/crud</code> untuk operasi CRUD nya.<br />
+Sebelum kita mulai pastikan sudah terinstall <code class="highlighter-rouge">mysql</code> dan <code class="highlighter-rouge">nestjs</code>.</p>
+
+<h2 id="kita-mulai-yukz">Kita Mulai yukz!</h2>
+
+<p>Pertama-tama kita buat projectnya dengan <code class="highlighter-rouge">nestjs-cli</code>:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>nest new crud-todo</code></pre></figure>
+
+<p>lalu setelah itu kita install <code class="highlighter-rouge">typeorm</code>, <code class="highlighter-rouge">mysql library</code> dan <code class="highlighter-rouge">dotenv</code>:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>yarn add  dotenv
+<span class="nv">$ </span>yarn add  @nestjs/typeorm typeorm mysql</code></pre></figure>
+
+<p>kita buat <code class="highlighter-rouge">.env</code> dan koneksi database untuk konfigurasi aplikasinya:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">touch</span> .env
+<span class="nv">$ </span><span class="nb">mkdir </span>src/shared <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>src/shared/services
+<span class="nv">$ </span><span class="nb">touch </span>src/shared/services/database-connection.service.ts</code></pre></figure>
+
+<p>kita edit <code class="highlighter-rouge">.env</code> yang telah di buat dan pastikan konfigurasi nya sesuai dengan laptop:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">DATABASE_HOST <span class="o">=</span> <span class="s2">"localhost"</span>
+DATABASE_PORT <span class="o">=</span> 3306
+DATABASE_USER <span class="o">=</span> <span class="s2">"root"</span>
+DATABASE_PASSWORD <span class="o">=</span> <span class="s2">"root"</span>
+DATABASE_DB <span class="o">=</span> <span class="s2">"nestjs_crud"</span></code></pre></figure>
+
+<p>sekarang kita edit <code class="highlighter-rouge">database-connection.service.ts</code> dan tambahkan kode berikut:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Injectable</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TypeOrmOptionsFactory</span><span class="p">,</span> <span class="nx">TypeOrmModuleOptions</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/typeorm</span><span class="dl">'</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">dotenv/config</span><span class="dl">'</span>
+
+<span class="p">@</span><span class="nd">Injectable</span><span class="p">()</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">DatabaseConnectionService</span> <span class="kr">implements</span> <span class="nx">TypeOrmOptionsFactory</span> <span class="p">{</span>
+
+  <span class="nx">createTypeOrmOptions</span><span class="p">():</span> <span class="nx">TypeOrmModuleOptions</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mysql</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">host</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_HOST</span><span class="p">,</span>
+      <span class="na">port</span><span class="p">:</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_PORT</span><span class="p">),</span>
+      <span class="na">username</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_USER</span><span class="p">,</span>
+      <span class="na">password</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_PASSWORD</span><span class="p">,</span>
+      <span class="na">database</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DATABASE_DB</span><span class="p">,</span>
+      <span class="na">synchronize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">dropSchema</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">logging</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">entities</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">dist/**/*.entity.js</span><span class="dl">'</span><span class="p">],</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>setelah membuat koneksi database, sekarang kita import typeORM module di <code class="highlighter-rouge">app.module.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Module</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app.controller</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app.service</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TypeOrmModule</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/typeorm</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">DatabaseConnectionService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./shared/services/database-connection.service</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Module</span><span class="p">({</span>
+  <span class="na">imports</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nx">TypeOrmModule</span><span class="p">.</span><span class="nx">forRootAsync</span><span class="p">({</span>
+      <span class="na">useClass</span><span class="p">:</span> <span class="nx">DatabaseConnectionService</span>
+    <span class="p">})</span>
+  <span class="p">],</span>
+  <span class="na">controllers</span><span class="p">:</span> <span class="p">[</span><span class="nx">AppController</span><span class="p">],</span>
+  <span class="na">providers</span><span class="p">:</span> <span class="p">[</span><span class="nx">AppService</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">AppModule</span> <span class="p">{}</span></code></pre></figure>
+
+<p>Database telah di konfigurasi, kita akan check apakah konfigurasi kita berhasil:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">yarn</span> <span class="nx">start</span><span class="p">:</span><span class="nx">dev</span></code></pre></figure>
+
+<p>kita akan melihat seperti ini jika koneksi database berhasil : 
+<img src="/assets/img/nestjs/nest1.jpeg" /></p>
+
+<p>sekarang kita akan buat todo module, service dan controller:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">nest</span> <span class="nx">g</span> <span class="nx">module</span> <span class="nx">todo</span>
+<span class="nx">$</span> <span class="nx">nest</span> <span class="nx">g</span> <span class="nx">service</span> <span class="nx">todo</span>
+<span class="nx">$</span> <span class="nx">nest</span> <span class="nx">g</span> <span class="nx">controller</span> <span class="nx">todo</span></code></pre></figure>
+
+<p>setelah generate module, service dan controller kita akan menginstall <code class="highlighter-rouge">nesjsx/crud</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">yarn</span> <span class="nx">add</span> <span class="p">@</span><span class="nd">nestjsx</span><span class="sr">/crud class-transformer class-validato</span><span class="err">r
+</span><span class="nx">$</span> <span class="nx">yarn</span> <span class="nx">add</span> <span class="p">@</span><span class="nd">nestjsx</span><span class="sr">/crud-typeorm</span></code></pre></figure>
+
+<p>sekarang kita buat todo entity :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">touch</span> <span class="nx">src</span><span class="o">/</span><span class="nx">todo</span><span class="o">/</span><span class="nx">todo</span><span class="p">.</span><span class="nx">entity</span><span class="p">.</span><span class="nx">ts</span></code></pre></figure>
+
+<p>lalu kita edit <code class="highlighter-rouge">todo.entity.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Entity</span><span class="p">,</span> <span class="nx">PrimaryGeneratedColumn</span><span class="p">,</span> <span class="nx">Column</span><span class="p">,</span> <span class="nx">CreateDateColumn</span><span class="p">,</span> <span class="nx">UpdateDateColumn</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">typeorm</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Entity</span><span class="p">(</span><span class="dl">'</span><span class="s1">todos</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoEntity</span> <span class="p">{</span>
+
+  <span class="p">@</span><span class="nd">PrimaryGeneratedColumn</span><span class="p">()</span> 
+  <span class="nx">id</span><span class="p">:</span> <span class="nx">number</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">Column</span><span class="p">()</span> 
+  <span class="nx">title</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">Column</span><span class="p">()</span>
+  <span class="nx">description</span><span class="p">:</span> <span class="nx">string</span>
+
+  <span class="p">@</span><span class="nd">Column</span><span class="p">({</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">boolean</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">default</span><span class="p">:</span> <span class="kc">false</span>
+  <span class="p">})</span>
+  <span class="nx">is_done</span><span class="p">:</span> <span class="nx">boolean</span>
+
+  <span class="p">@</span><span class="nd">CreateDateColumn</span><span class="p">()</span>
+  <span class="nx">create_at</span><span class="p">:</span> <span class="nb">Date</span>
+
+  <span class="p">@</span><span class="nd">UpdateDateColumn</span><span class="p">()</span>
+  <span class="nx">updated_at</span><span class="p">:</span> <span class="nb">Date</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>kita telah berhasil membuat table todos di database.</p>
+
+<p>sekarang kita mulai membuat operasi crud nya.
+kita edit <code class="highlighter-rouge">todo.service.ts</code> dan tambahkan kode berikut:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Injectable</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TypeOrmCrudService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@nestjsx/crud-typeorm</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">InjectRepository</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/typeorm</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Injectable</span><span class="p">()</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoService</span> <span class="kd">extends</span> <span class="nx">TypeOrmCrudService</span><span class="o">&lt;</span><span class="nx">TodoEntity</span><span class="o">&gt;</span><span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(@</span><span class="nd">InjectRepository</span><span class="p">(</span><span class="nx">TodoEntity</span><span class="p">)</span> <span class="nx">repo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">repo</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>lalu kita edit <code class="highlighter-rouge">todo.controller.ts</code> dan tambahkan juga kode di bawah ini:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Crud</span><span class="p">,</span> <span class="nx">CrudController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjsx/crud</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Crud</span><span class="p">({</span>
+  <span class="na">model</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">TodoEntity</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="p">@</span><span class="nd">Controller</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoController</span> <span class="kr">implements</span> <span class="nx">CrudController</span><span class="o">&lt;</span><span class="nx">TodoEntity</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="na">service</span><span class="p">:</span> <span class="nx">TodoService</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>dan jangan lupa tambahkan di <code class="highlighter-rouge">app.module.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Module</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.controller</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TypeOrmModule</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/typeorm</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Module</span><span class="p">({</span>
+  <span class="na">imports</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nx">TypeOrmModule</span><span class="p">.</span><span class="nx">forFeature</span><span class="p">([</span><span class="nx">TodoEntity</span><span class="p">])</span>
+  <span class="p">],</span>
+  <span class="na">providers</span><span class="p">:</span> <span class="p">[</span><span class="nx">TodoService</span><span class="p">],</span>
+  <span class="na">controllers</span><span class="p">:</span> <span class="p">[</span><span class="nx">TodoController</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoModule</span> <span class="p">{}</span></code></pre></figure>
+
+<p>Sebenarnya kita sudah beres membuat operasi crud sampai disini, bingung ga? kenapa ga ada  @Post, @Get, @Put, @Patch, @Delete methods? itu karena <code class="highlighter-rouge">nestjsx/crud</code> telah meng-handle semua fungsi tersebut. <br /></p>
+
+<p>sekarang kita akan setup OpenAPI, kita akan menggunakan nestjs swagger:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">yarn</span> <span class="nx">add</span> <span class="p">@</span><span class="nd">nestjs</span><span class="sr">/swagger swagger-ui-express</span></code></pre></figure>
+
+<p>setelah menginstall kita edit <code class="highlighter-rouge">main.ts</code>:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">NestFactory</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/core</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppModule</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./app.module</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">SwaggerModule</span><span class="p">,</span> <span class="nx">DocumentBuilder</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/swagger</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">bootstrap</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">NestFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
+
+  <span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DocumentBuilder</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="dl">'</span><span class="s1">Todo Crud</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">setDescription</span><span class="p">(</span><span class="dl">'</span><span class="s1">The todo API description</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">setVersion</span><span class="p">(</span><span class="dl">'</span><span class="s1">1.0</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">addTag</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">build</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nb">document</span> <span class="o">=</span> <span class="nx">SwaggerModule</span><span class="p">.</span><span class="nx">createDocument</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+  <span class="nx">SwaggerModule</span><span class="p">.</span><span class="nx">setup</span><span class="p">(</span><span class="dl">'</span><span class="s1">api/docs</span><span class="dl">'</span><span class="p">,</span> <span class="nx">app</span><span class="p">,</span> <span class="nb">document</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">bootstrap</span><span class="p">();</span></code></pre></figure>
+
+<p>lalu sekarang buka browser dan akses ke <code class="highlighter-rouge">localhost:3000/api/docs</code>:</p>
+
+<p><img src="/assets/img/nestjs/nest2.png" /></p>
+
+<p>sekarang kita bisa lihat bebagai macam todo endpoints, tapi kayanya ada yang kurang. kita harus membuat api tags dan field.</p>
+
+<p>kalau begitu mari kita buat DTO nya:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="nx">touch</span> <span class="nx">src</span><span class="o">/</span><span class="nx">todo</span><span class="o">/</span><span class="nx">todo</span><span class="p">.</span><span class="nx">dto</span><span class="p">.</span><span class="nx">ts</span></code></pre></figure>
+
+<p>dan tambahkan kode berikut di <code class="highlighter-rouge">todo.dto.ts</code></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">ApiProperty</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/swagger</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">CreateUserDto</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../user/user.dto</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">CreateTodoDto</span> <span class="p">{</span>
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">title</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">description</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+
+  <span class="p">@</span><span class="nd">ApiProperty</span><span class="p">()</span>
+  <span class="nx">is_done</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>edit juga di <code class="highlighter-rouge">todo.controller.ts</code> :</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjs/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Crud</span><span class="p">,</span> <span class="nx">CrudController</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nestjsx/crud</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoEntity</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.entity</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">TodoService</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.service</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">CreateTodoDto</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./todo.dto</span><span class="dl">'</span>
+
+
+<span class="p">@</span><span class="nd">Crud</span><span class="p">({</span>
+  <span class="na">model</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">type</span><span class="p">:</span> <span class="nx">TodoEntity</span>
+  <span class="p">},</span>
+  <span class="na">dto</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">create</span><span class="p">:</span> <span class="nx">CreateTodoDto</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="p">@</span><span class="nd">Controller</span><span class="p">(</span><span class="dl">'</span><span class="s1">todo</span><span class="dl">'</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">TodoController</span> <span class="kr">implements</span> <span class="nx">CrudController</span><span class="o">&lt;</span><span class="nx">TodoEntity</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="na">service</span><span class="p">:</span> <span class="nx">TodoService</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>dan sekarang kita sudah melihat fields di swaggernya:
+<img src="/assets/img/nestjs/nest3.png" /></p>
+
+<p><code class="highlighter-rouge">nestjsx/crud</code> lengkap dengan bebagai query untuk kebutuhan pagination dan searching</p>
+
+<p><img src="/assets/img/nestjs/nest4.png" /></p>
+
+<h2 id="kesimpulan">Kesimpulan</h2>
+
+<p><code class="highlighter-rouge">nestjsx/crud</code> memudahkan kita untuk membuat crud secara cepat tapi kita harus banyak membaca dokumentasinya di sesuaikan dengan kebutuhan kita.</p>
+
+<h2 id="thank-you--">thank you  ……</h2>
+<p>your  boi <code class="highlighter-rouge">dery febriantara</code></p>
+
+:ET
