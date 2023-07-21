@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Privacy Policy Sepakat Dishub"
+title:  "Kebijakan Privasi SEPAKAT DISHUB"
 image: ''
 date:   2020-05-15 00:06:31
 tags:
@@ -10,9 +10,6 @@ categories:
 - node
 serie: learn
 ---
-
-
-# Kebijakan Privasi SEPAKAT DISHUB
 
 ## Pengumpulan Informasi
 
